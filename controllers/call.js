@@ -9,8 +9,9 @@ module.exports = {
                 console.log(err);
                 return null;
             })
+            console.log(getAllCalls)
             // Validamos el resultado. Si esta vacio o es null. Enviamos 404. NotFound
-            if(!getAllCalls || !getAllCalls.lenght) return res.status(404).json({msg: 'No hay llamadas aun.'});
+            if(!getAllCalls) return res.status(404).json({msg: 'No hay llamadas aun.'});
 
             // Caso contrario, mostramos todos los resultados
             res.status(200).json(getAllCalls);
