@@ -1,4 +1,4 @@
-const { call } = require('../db/db');
+const { call, qr } = require('../db/db');
 
 module.exports = {
     // Get all de calls
@@ -104,6 +104,65 @@ module.exports = {
         }catch(err){
             console.log(err);
             return null;
+        }
+        
+    },
+    // QR
+    async newQRDATA(req, res){
+        try{
+            // Recibimos datos por body
+            const {name, lastName, email, nameBusiness, phone } = req.body;
+            // Validamos datos
+            if(!lastName || !email || !nameBusiness || !phone) res.status(501).json({msg: 'Ha ocurrido un error en la principal.'});
+            // Avanzamos...
+            const newQR = await qr.create({
+                name: name,
+                lastName: lastName,
+                email:email,
+                empresa: nameBusiness,
+                phone: phone
+            }).catch(err => {
+                console.log(err);
+                return null;
+            });
+
+            if(!newQR) return res.status(502).json({msg:'No hemos podido registrar esto.'});
+            // Caso contrario, avanzamos...
+            res.status(201).json({msg:'Guardado con exito'});
+
+        }catch(err){
+            console.log(err);
+            res.status(500).json({msg: 'Ha ocurrido un error en la principal.'});
+        }
+    },
+    async getAllByQr(req, res){
+        try{
+            const searchAllQr = await qr.findAll().catch(err => {
+                console.log(err);
+                return null;
+            });
+
+            if(!searchAllQr) return res.status(404).json({msg: 'No hay'});
+            res.status(200).json(searchAllQr);
+        }catch(err){
+            console.log(err);
+            res.status(500).json({msg: 'Ha ocurrid un error en la principal.'});
+        }
+    },
+    async getQrById(req, res){
+        try{
+            // Obtenemos datos por params
+            const { qrId } = req.params;
+            // Verificamos que entre correctamente
+            if(!qrId) return res.status(501).json({msg: 'Parametro invalido.'});
+            // Caso contrario, avanzamos...
+            const searchById = await qr.findByPk(qrId).catch(err => null);
+            if(!searchById) return res.status(404).json({msg: 'Not found'});
+            // Caso contrario, enviamos
+            res.status(200).json(searchById);
+        }catch(err){
+            console.log(err);
+            res.status(500).json({msg: 'Ha ocurrido un error en la principal.'});
         }
     }
 }

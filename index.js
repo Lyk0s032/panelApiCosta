@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {db, Op } = require('./db/db');
-const { getAllCalls, getCall, addCall, addEmail } = require('./controllers/call');
+const { getAllCalls, getCall, addCall, addEmail, newQRDATA, getAllByQr, getQrById } = require('./controllers/call');
 
 const app = express();
 
@@ -27,13 +27,16 @@ app.get('/', (req, res) => {
 app.get('/call/get/', getAllCalls);
 // Consultar registros especificos
 app.get('/call/get/:callReference', getCall);
-
 // Ingresar llamada - General
 app.post('/call/post/new', addCall);
-
 // Ingresar llamada 
 app.post('/call/post/subscription', addEmail);
 
+
+// QR
+app.post('/qr/new', newQRDATA);
+app.get('/qr/get/', getAllByQr);
+app.get('/qr/get/:qrId', getQrById);
 
 // Enciende el servidor
 app.listen(PORT, () => {

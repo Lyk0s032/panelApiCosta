@@ -1,27 +1,24 @@
 const { DataTypes, INTEGER } = require('sequelize');
 
 module.exports = sequelize => {
-    sequelize.define('call', { 
+    sequelize.define('qr', { 
         // Wallpaper
         name:{
             type: DataTypes.STRING
         },
-        number: {
+        lastName: {
             type: DataTypes.STRING
         },
         email: {
             type: DataTypes.STRING
         },
         // Description
-        state: {
+        empresa: {
             type: DataTypes.STRING
         },
-        type: {
+        // Phone
+        phone: {
             type: DataTypes.STRING
         },
-        // FROM
-        from: {
-            type: DataTypes.STRING
-        }, // QR
     })
 }   

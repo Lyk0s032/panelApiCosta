@@ -1,6 +1,7 @@
 const { Sequelize, Op} = require('sequelize');
 
-const modelCall = require('./model/call'); // Modelo de Screenshots
+const modelCall = require('./model/call'); // Modelo de llamadas
+const modelQr = require('./model/qr');      // QR
 
 
 const entorno = true;
@@ -13,8 +14,9 @@ const sequelize = new Sequelize(dburl, {
 });
 
 modelCall(sequelize);
+modelQr(sequelize);
 
-const { call } = sequelize.models;
+const { call, QR } = sequelize.models;
 
 
 // Exportamos.
